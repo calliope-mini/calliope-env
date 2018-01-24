@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # config.vm.box = "ubuntu/artful64"
+  # config.vm.box = "ubuntu/zesty64"
+
+  # config.vm.box = "fso/artful64" # 17.10
+  config.vm.box = "fso/zesty64" # 17.04
+  # config.vm.box = "ubuntu/zesty64" # 17.04
+
+  config.vm.hostname = 'calliope'
+  config.ssh.forward_agent = true
+
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network :private_network, type: "dhcp"
+  # config.vm.network "private_network", ip: "192.168.33.10"
+  # config.vm.network "public_network"
+
+  # config.hosts.aliases = [
+  #   'www.foo.com',
+  # ]
+
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vbguest.no_install = true
+
+  config.vm.provider "virtualbox" do |vb|
+    # vb.gui = true
+    vb.name = "calliope"
+    vb.memory = "1536"
+  end
+
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  # SHELL
+  config.vm.provision :shell, path: "provision-bootstrap.sh"
+  config.vm.provision :shell, path: "provision-calliope.sh"
+  config.vm.provision :shell, path: "provision-cleanup.sh"
+
+end
