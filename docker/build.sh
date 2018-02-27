@@ -1,4 +1,4 @@
 #!/bin/sh
 
-docker build -t calliope/build .
+docker build -t calliopeedu/yotta .
 #docker push calliope/build
